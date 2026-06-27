@@ -7,4 +7,8 @@ App({
     },
   },
   onLaunch() {},
+  // 兜底：访问到已删除/不存在的页面（旧分享、旧体验码、旧深链）时自动回行情首页
+  onPageNotFound() {
+    wx.reLaunch({ url: "/pages/fund/fund" });
+  },
 });
