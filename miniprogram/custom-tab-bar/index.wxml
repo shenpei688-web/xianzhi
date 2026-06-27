@@ -1,0 +1,14 @@
+<view class="tab-bar {{hidden ? 'tab-bar-hidden' : ''}}">
+  <view class="tab-bar-line"></view>
+  <view
+    class="tab-item {{selected === index ? 'active' : ''}}"
+    wx:for="{{list}}"
+    wx:key="text"
+    data-index="{{index}}"
+    bindtap="switchTab"
+  >
+    <view class="tab-indicator"></view>
+    <view class="tab-icon icon-{{index}}"></view>
+    <text class="tab-text">{{item.text}}</text>
+  </view>
+</view>

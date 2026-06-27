@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "讨论广场",
+  "navigationBarBackgroundColor": "#0b3bd6",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#f4f6fb",
+  "backgroundTextStyle": "dark",
+  "enablePullDownRefresh": true
+}

@@ -1,0 +1,29 @@
+{
+  "pages": [
+    "pages/fund/fund",
+    "pages/market/market",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#0b3bd6",
+    "navigationBarTitleText": "纳指基金",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f4f6fb",
+    "backgroundTextStyle": "dark",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#8a93a7",
+    "selectedColor": "#1f7cff",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/fund/fund", "text": "行情" },
+      { "pagePath": "pages/market/market", "text": "论坛" },
+      { "pagePath": "pages/profile/profile", "text": "我的" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

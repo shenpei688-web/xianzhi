@@ -1,0 +1,13 @@
+node_modules
+dist
+server-dist
+.DS_Store
+*.local
+.env
+.env.development
+.env.*.local
+.env.prod
+server/data/user-listings.json
+version.json
+.env.development.bak
+*.bak

@@ -1,0 +1,135 @@
+<view class="page">
+  <!-- 顶部品牌区 -->
+  <view class="hero">
+    <view class="hero-top">
+      <view class="brand">
+        <view class="brand-badge">纳斯</view>
+        <view class="brand-text">
+          <text class="brand-title">数据</text>
+          <text class="brand-sub">实时更新</text>
+        </view>
+      </view>
+      <view class="nav-icons">
+        <view class="nav-ico" bindtap="goSettings">
+          <text class="ico">◎</text>
+          <text class="ico-label">设置</text>
+        </view>
+        <view class="nav-ico" bindtap="goLimit">
+          <text class="ico">¥</text>
+          <text class="ico-label">限额</text>
+        </view>
+        <view class="nav-ico" bindtap="goSearch">
+          <text class="ico">⌕</text>
+          <text class="ico-label">搜索</text>
+        </view>
+        <view class="nav-ico" bindtap="goFavorites">
+          <text class="ico">★</text>
+          <text class="ico-label">自选</text>
+        </view>
+      </view>
+    </view>
+    <view class="hero-tag-row">
+      <text class="hero-tag">Deepseek AI 智能数据优化</text>
+      <view class="status-pill">
+        <view class="status-dot"></view>
+        <text>LIVE</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Tab + 顶部四大指数 -->
+  <view class="card index-card">
+    <view class="tabs">
+      <view
+        class="tab {{activeTab === 'overseas' ? 'active' : ''}}"
+        data-key="overseas"
+        bindtap="switchTab"
+      >海外基</view>
+      <view
+        class="tab {{activeTab === 'hot' ? 'active' : ''}}"
+        data-key="hot"
+        bindtap="switchTab"
+      >热门基</view>
+    </view>
+    <view class="index-row">
+      <view class="index-cell" wx:for="{{indices}}" wx:key="id">
+        <text class="index-val {{item.isUp ? 'up' : 'down'}}">{{item.changeText}}</text>
+        <text class="index-name">{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 大盘卡片 -->
+  <view class="hero-card" wx:if="{{hero}}">
+    <view class="hc-top">
+      <view class="hc-name-wrap">
+        <text class="hc-name">{{hero.name}}</text>
+        <text class="hc-code">{{hero.code}}</text>
+      </view>
+      <view class="hc-pill {{hero.isUp ? 'up' : 'down'}}">
+        <text>{{hero.changeText}}</text>
+      </view>
+    </view>
+    <view class="hc-price-row">
+      <text class="hc-price {{hero.isUp ? 'up' : 'down'}}">{{hero.priceText}}</text>
+    </view>
+    <view class="hc-stats">
+      <view class="hc-stat">
+        <text class="hc-sl">最高</text>
+        <text class="hc-sv up">{{hero.highText}}</text>
+      </view>
+      <view class="hc-stat">
+        <text class="hc-sl">最低</text>
+        <text class="hc-sv down">{{hero.lowText}}</text>
+      </view>
+      <view class="hc-stat">
+        <text class="hc-sl">成交量</text>
+        <text class="hc-sv">{{hero.volText}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 基金列表 -->
+  <view class="fund-list" wx:if="{{!loading}}">
+    <view class="fund-row" wx:for="{{fundList}}" wx:key="id">
+      <view class="fund-bar {{item.isUp ? 'up' : 'down'}}"></view>
+      <text class="fund-name">{{item.name}}</text>
+      <text class="fund-val {{item.isUp ? 'up' : 'down'}}">{{item.changeText}}</text>
+    </view>
+    <view wx:if="{{fundList.length === 0}}" class="empty">暂无数据</view>
+  </view>
+
+  <view class="fund-list skeleton" wx:if="{{loading}}">
+    <view class="fund-row sk" wx:for="{{[1,2,3,4,5,6]}}" wx:key="*this">
+      <view class="fund-bar"></view>
+      <view class="sk-line"></view>
+      <view class="sk-pct"></view>
+    </view>
+  </view>
+
+  <!-- 底部 -->
+  <view class="footer">
+    <view class="footer-left">
+      <text class="footer-time">{{updatedText}}</text>
+      <view class="auto-refresh">
+        <switch
+          checked="{{autoRefresh}}"
+          color="#1f7cff"
+          bindchange="toggleAutoRefresh"
+        />
+        <text class="auto-label">自动更新</text>
+      </view>
+    </view>
+    <view class="pager">
+      <view
+        class="pager-btn {{page <= 1 ? 'disabled' : ''}}"
+        bindtap="prevPage"
+      >‹</view>
+      <text class="pager-text">{{page}} / {{totalPages}}</text>
+      <view
+        class="pager-btn {{page >= totalPages ? 'disabled' : ''}}"
+        bindtap="nextPage"
+      >›</view>
+    </view>
+  </view>
+</view>

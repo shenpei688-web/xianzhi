@@ -1,0 +1,4 @@
+{
+  "desc": "旧物遇新 闲置市场",
+  "rules": [{ "action": "allow", "page": "*" }]
+}

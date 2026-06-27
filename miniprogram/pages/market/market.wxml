@@ -1,0 +1,148 @@
+<view class="container">
+  <!-- 标签筛选 -->
+  <scroll-view class="tag-scroll" scroll-x="true" enable-flex="true">
+    <view
+      class="tag-chip {{activeTag === item ? 'active' : ''}}"
+      wx:for="{{tags}}"
+      wx:key="*this"
+      data-tag="{{item}}"
+      bindtap="onTag"
+    >{{item}}</view>
+  </scroll-view>
+
+  <!-- 帖子列表 -->
+  <view
+    class="post-card {{item.isHot ? 'hot' : ''}}"
+    wx:for="{{posts}}"
+    wx:key="id"
+    data-post="{{item}}"
+    bindtap="onTapPost"
+  >
+    <!-- 热门标记 -->
+    <view class="hot-badge" wx:if="{{item.isHot}}">🔥 热门</view>
+
+    <!-- 头部：作者 + 标签 + 时间 -->
+    <view class="post-header">
+      <view class="author-avatar" style="{{item._isLocal ? 'background:#10b981;color:#fff;' : ''}}">{{item.author[0]}}</view>
+      <view class="post-meta">
+        <text class="author-name">{{item.author}}</text>
+        <text class="post-time">{{item.time}}</text>
+      </view>
+      <view class="post-tag tag-{{item.tagClass}}">{{item.tag}}</view>
+    </view>
+
+    <!-- 标题 -->
+    <view class="post-title">{{item.title}}</view>
+
+    <!-- 内容预览 -->
+    <view class="post-preview">{{item.content}}</view>
+
+    <!-- 底部互动 -->
+    <view class="post-footer">
+      <view class="post-action {{item.liked ? 'on' : ''}}" catchtap="onLike" data-id="{{item.id}}">
+        <view class="action-icon ai-like {{item.liked ? 'on' : ''}}"></view>
+        <text>{{item.likeCount}}</text>
+      </view>
+      <view class="post-action" catchtap="openComments" data-post="{{item}}">
+        <view class="action-icon ai-comment"></view>
+        <text>{{item.commentCount}}</text>
+      </view>
+      <button class="post-action share-btn" open-type="share" data-post="{{item}}" catchtap="noop">
+        <view class="action-icon ai-share"></view>
+        <text>分享</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty" wx:if="{{posts.length === 0}}">
+    暂无{{activeTag === '全部' ? '' : activeTag + '相关'}}帖子，来抢沙发吧～
+  </view>
+</view>
+
+<!-- 浮动发布按钮 -->
+<view class="fab" bindtap="openPublish">
+  <text class="fab-icon">✎</text>
+</view>
+
+<!-- 发布弹窗 -->
+<view class="publish-overlay" wx:if="{{showPublish}}" catchtouchmove="onPublishOverlayTouch">
+  <view class="publish-modal">
+    <view class="publish-header">
+      <text class="publish-cancel" bindtap="closePublish">取消</text>
+      <text class="publish-title">发布帖子</text>
+      <text class="publish-submit" bindtap="doPublish">发布</text>
+    </view>
+
+    <!-- 分类选择 -->
+    <view class="publish-tags">
+      <view
+        class="pub-tag {{pubTag === item ? 'active' : ''}}"
+        wx:for="{{['行情','闲聊']}}"
+        wx:key="*this"
+        data-tag="{{item}}"
+        bindtap="onPubTag"
+      >{{item}}</view>
+    </view>
+
+    <input
+      class="pub-title-input"
+      placeholder="请输入标题（必填）"
+      value="{{pubTitle}}"
+      bindinput="onPubTitle"
+      maxlength="50"
+    />
+    <textarea
+      class="pub-content-input"
+      placeholder="说说你的想法..."
+      value="{{pubContent}}"
+      bindinput="onPubContent"
+      maxlength="2000"
+      auto-height
+    />
+  </view>
+</view>
+
+<!-- 评论弹窗 -->
+<view
+  class="comment-overlay"
+  wx:if="{{showComments}}"
+  catchtouchmove="onCommentOverlayTouch"
+  bindtap="closeComments"
+>
+  <view class="comment-modal" catchtap="onCommentOverlayTouch">
+    <view class="comment-header">
+      <text class="comment-title">评论</text>
+      <text class="comment-close" bindtap="closeComments">✕</text>
+    </view>
+    <text class="comment-post-title">{{activePost.title}}</text>
+
+    <scroll-view scroll-y class="comment-list">
+      <view wx:if="{{comments.length === 0}}" class="comment-empty">
+        还没有评论，来抢沙发吧～
+      </view>
+      <view class="comment-item" wx:for="{{comments}}" wx:key="id">
+        <view class="comment-avatar">{{item.author[0]}}</view>
+        <view class="comment-body">
+          <text class="comment-author">{{item.author}}</text>
+          <text class="comment-content">{{item.content}}</text>
+          <text class="comment-time">{{item.time}}</text>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="comment-input-bar">
+      <input
+        class="comment-input"
+        placeholder="写下你的评论..."
+        placeholder-class="comment-ph"
+        value="{{commentInput}}"
+        bindinput="onCommentInput"
+        confirm-type="send"
+        bindconfirm="sendComment"
+        maxlength="500"
+      />
+      <view class="comment-send {{commentInput ? 'on' : ''}}" bindtap="sendComment">发送</view>
+    </view>
+  </view>
+</view>
